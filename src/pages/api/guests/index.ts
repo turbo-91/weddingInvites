@@ -36,7 +36,7 @@ const getGuestById = async (req: NextApiRequest, res: NextApiResponse) => {
       ? res.status(200).json(guest)
       : res.status(404).json({ status: "Guest not Found" });
   } catch (error: unknown) {
-    console.error(error);
+    console.error("Error retrieving guest:", error);
     return res
       .status(500)
       .json({ error: "Something went wrong. Please try again later." });
@@ -46,13 +46,17 @@ const getGuestById = async (req: NextApiRequest, res: NextApiResponse) => {
 const getAllGuests = async (res: NextApiResponse) => {
   try {
     const guests = await Guest.find();
-    return res
-      .status(guests.length ? 200 : 404)
-      .json(guests.length ? guests : { status: "Guests not Found" });
+
+    if (!guests || guests.length === 0) {
+      return res.status(200).json({ results: [], message: "No guests found" });
+    }
+
+    return res.status(200).json(guests);
   } catch (error: unknown) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later." });
+    console.error("Error retrieving guests:", error);
+
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later.",
+    });
   }
 };
