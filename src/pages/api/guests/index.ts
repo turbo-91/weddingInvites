@@ -43,13 +43,16 @@ const getGuestById = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-//   const getAllMovies = async (res: NextApiResponse) => {
-//     try {
-//       const movies = await Movie.find();
-//       return res
-//         .status(movies.length ? 200 : 404)
-//         .json(movies.length ? movies : { status: "Not Found" });
-//     } catch (error) {
-//       return handleApiError(res, "Error fetching movies", error);
-//     }
-//   };
+const getAllGuests = async (res: NextApiResponse) => {
+  try {
+    const guests = await Guest.find();
+    return res
+      .status(guests.length ? 200 : 404)
+      .json(guests.length ? guests : { status: "Guests not Found" });
+  } catch (error: unknown) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later." });
+  }
+};
