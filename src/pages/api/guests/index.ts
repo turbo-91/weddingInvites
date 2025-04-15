@@ -1,6 +1,7 @@
 import Guest from "@/db/models/Guest";
 import dbConnect from "@/db/mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { extractErrorMessage } from "@/lib/extractErrorMessage";
 
 export default async function guestHandler(
   req: NextApiRequest,
@@ -34,12 +35,11 @@ const getGuestById = async (req: NextApiRequest, res: NextApiResponse) => {
     return guest.length
       ? res.status(200).json(guest)
       : res.status(404).json({ status: "Guest not Found" });
-  } catch (error: any) {
-    const errorMessage = error.message.includes("Guest validation failed")
-      ? "Missing required fields"
-      : "Error finding guest";
-
-    return res.status(400).json({ error: errorMessage });
+  } catch (error: unknown) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later." });
   }
 };
 
