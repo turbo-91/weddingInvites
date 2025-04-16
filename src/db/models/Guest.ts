@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export type RSVPStatus = "yes" | "no" | "pending";
+export type rsvp = "yes" | "no" | "pending";
 
 export interface IGuest extends Document {
   _id: number;
@@ -8,7 +8,7 @@ export interface IGuest extends Document {
   lastName: string;
   email: string;
   inviteId: string;
-  rsvp: RSVPStatus;
+  rsvp: rsvp;
   dietRestrictions: string;
   plusOneAllowed: boolean;
   plusOneName: string;
@@ -25,9 +25,9 @@ const guestSchema = new Schema<IGuest>({
     enum: ["yes", "no", "pending"],
     default: "pending",
   },
-  dietRestrictions: { type: String, required: true },
+  dietRestrictions: { type: String, required: false },
   plusOneAllowed: { type: Boolean, required: true },
-  plusOneName: { type: String, required: true },
+  plusOneName: { type: String, required: false },
 });
 
 const Guest = mongoose.models.Guest || mongoose.model("Guest", guestSchema);
