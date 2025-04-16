@@ -1,7 +1,6 @@
 import Guest from "@/db/models/Guest";
 import dbConnect from "@/db/mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { extractErrorMessage } from "@/lib/extractErrorMessage";
 
 export default async function guestHandler(
   req: NextApiRequest,

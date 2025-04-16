@@ -28,6 +28,6 @@ const inviteSchema = new Schema<IInvite>({
   createdAt: { type: String, required: true },
 });
 
-const Invite = mongoose.models.Guest || mongoose.model("Invite", inviteSchema);
+const Invite = mongoose.models.Invite || mongoose.model("Invite", inviteSchema);
 
 export default Invite;
